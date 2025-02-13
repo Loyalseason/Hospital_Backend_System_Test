@@ -1,0 +1,105 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+
+generator client {
+  provider = "prisma-client-js"
+   previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  extensions = [pgcrypto]
+}
+
+// model User {
+//   id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid 
+//   name          String
+//   email         String    @unique @map(name: "LOWER(email)")
+//   password      String
+//   role          Role
+//   patientNotes  Note[]    @relation("PatientNotes")
+//   doctorNotes   Note[]    @relation("DoctorNotes")
+//   createdAt     DateTime  @default(now())
+//   updatedAt     DateTime  @updatedAt
+// }
+
+// enum Role {
+//   PATIENT
+//   DOCTOR
+//   ADMIN
+// }
+
+// model Note {
+//   id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid 
+//   content     String   
+//   patientId   String?   @db.Uuid
+//   doctorId    String?   @db.Uuid
+//   patient     User?     @relation("PatientNotes", fields: [patientId], references: [id])
+//   doctor      User?     @relation("DoctorNotes", fields: [doctorId], references: [id])
+//   createdAt   DateTime  @default(now())
+//   updatedAt   DateTime  @updatedAt
+// }
+
+
+enum Role {
+  PATIENT
+  DOCTOR
+  ADMIN
+}
+
+model User {
+  id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name     String
+  email    String   @unique @map(name: "LOWER(email)")
+  password String   // Hashed with bcrypt
+  role     Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  patient  Patient?
+  doctor   Doctor?
+}
+
+model Patient {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    String   @unique @db.Uuid
+  user      User     @relation(fields: [userId], references: [id])
+  doctorId  String?  @db.Uuid 
+  notes     Note[]   
+  Doctor    Doctor[]
+}
+
+model Doctor {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    String   @unique @db.Uuid
+  user      User     @relation(fields: [userId], references: [id])
+  patients  Patient[] 
+  notes     Note[]   
+}
+
+model Note {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  content      String  
+  patientId    String   @db.Uuid
+  doctorId     String   @db.Uuid
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  patient      Patient  @relation(fields: [patientId], references: [id])
+  doctor       Doctor   @relation(fields: [doctorId], references: [id])
+  actionableSteps ActionableStep[]
+}
+
+model ActionableStep {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  noteId      String   @db.Uuid
+  description String
+  scheduledAt DateTime?
+  createdAt   DateTime @default(now())
+  note        Note     @relation(fields: [noteId], references: [id])
+}

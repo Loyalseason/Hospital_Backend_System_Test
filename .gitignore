@@ -1,0 +1,41 @@
+# Node modules
+node_modules/
+
+# Output directories
+dist/
+build/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE-specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# MacOS
+.DS_Store
+
+# Linux
+*~
+
+# Exclude package-lock.json
+package-lock.json
+
+/src/prisma/migrations

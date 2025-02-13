@@ -1,0 +1,53 @@
+@baseUrl = http://localhost:3000 
+# @authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNlMWRiMzg5LTY4MmYtNDY2Ni05ODAzLWE1YWUyMmI1MDhiNCIsImlhdCI6MTczOTQ1ODE3NCwiZXhwIjoxNzM5NTAxMzc0fQ.-nr2VyPoODY2NEsrIvx_EKBxdeOHElIrE5rkgeqy0w0
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZkYTY4ZGMzLWFhZjgtNDFmMy05ZDJlLWYyMzBiZDUxOGIxNyIsImlhdCI6MTczOTQ1ODI4OSwiZXhwIjoxNzM5NTAxNDg5fQ.mA8DN9BtzNLP_ASkBN8vct3i5BZmXn0vHGDOYRbCu1c
+
+
+### 1️⃣ User Login
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+  "email": "doctor@example.com",
+  "password": "password123"
+}
+
+### 2️⃣ Patient Signup Request
+POST {{baseUrl}}/signUp
+Content-Type: application/json
+
+{
+  "name": "Emmanuel",
+  "email": "emma@example.com",
+  "password": "password123"
+}
+
+### 3️⃣ Doctor Signup Request
+POST {{baseUrl}}/doc-signUp
+Content-Type: application/json
+
+{
+  "name": "Doctor",
+  "email": "doctor@example.com",
+  "password": "password123"
+}
+
+### 4️⃣ Admin Signup Request (for Patient, Doctor, or Admin)
+POST {{baseUrl}}/admin/signUp
+Content-Type: application/json
+
+{
+  "name": "Admin User",
+  "email": "adminuser01@example.com",
+  "password": "admin123",
+  "role": "PATIENT"
+}
+
+### Create Note
+POST {{baseUrl}}/note
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "content": "This is a sample doctors note."
+}
