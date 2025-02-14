@@ -1,5 +1,5 @@
-@baseUrl = http://localhost:3000
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyOThjMjUyLTNiNWMtNGMwMy04ZjMxLTI3OGQxOWUwZmY2YyIsImlhdCI6MTczOTU3MTkzMywiZXhwIjoxNzM5NjE1MTMzfQ.DrQAYBDvZrrILaSP_9KHP7DdSDLXSH01b4qgHZud0TY
+@baseUrl = http://Url:Port
+@authToken = token
 
 ### 1️⃣ User Login
 POST {{baseUrl}}/login
