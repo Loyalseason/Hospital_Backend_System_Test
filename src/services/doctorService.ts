@@ -26,9 +26,13 @@ export class DoctorService extends AuthorizedBaseService<Doctor> {
     async getPatients(doctorId: string): Promise<Patient[]> {
         const doctor = await this.prisma.doctor.findUnique({
             where: { userId: doctorId },
-            include: { patients: true }
+            include: { patients: true , user: {
+                select: {
+                    name: true,
+                    email: true
+                }
+            }}
         });
-
         if (!doctor) throw new NotFoundResponse("Doctor not found");
         return doctor.patients;
     }

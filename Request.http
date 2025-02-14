@@ -1,15 +1,16 @@
-@baseUrl = http://localhost:3000 
-@authToken = token
+@baseUrl = http://localhost:3000
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyOThjMjUyLTNiNWMtNGMwMy04ZjMxLTI3OGQxOWUwZmY2YyIsImlhdCI6MTczOTU3MTkzMywiZXhwIjoxNzM5NjE1MTMzfQ.DrQAYBDvZrrILaSP_9KHP7DdSDLXSH01b4qgHZud0TY
+
 ### 1️⃣ User Login
 POST {{baseUrl}}/login
 Content-Type: application/json
 
 {
-  "email": "doctor@example.com",
+  "email": "emma@example.com",
   "password": "password123"
 }
 
-### 2️⃣ Patient Signup Request
+### 2️⃣ Patient Signup
 POST {{baseUrl}}/signUp
 Content-Type: application/json
 
@@ -19,7 +20,7 @@ Content-Type: application/json
   "password": "password123"
 }
 
-### 3️⃣ Doctor Signup Request
+### 3️⃣ Doctor Signup
 POST {{baseUrl}}/doc-signUp
 Content-Type: application/json
 
@@ -29,7 +30,7 @@ Content-Type: application/json
   "password": "password123"
 }
 
-### 4️⃣ Admin Signup Request (for Patient, Doctor, or Admin)
+### 4️⃣ Admin Signup
 POST {{baseUrl}}/admin/signUp
 Content-Type: application/json
 
@@ -42,52 +43,27 @@ Content-Type: application/json
 
 ### 5️⃣ Get Profile
 GET {{baseUrl}}/profile
-Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
-### 5️⃣ Get All Users
+### 6️⃣ Get All Users
 GET {{baseUrl}}/users
-Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
-### 6️⃣ Create Note
+### 7️⃣ Create Note
 POST {{baseUrl}}/note
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
+
 {
-  "content": "Patient reports dizziness and shortness of breath. Ordered complete blood count (CBC) immediately. Schedule a cardiology consultation within 48 hours. Advise the patient to avoid strenuous activity and maintain a low-sodium diet. Monitor blood pressure daily for 7 days. Follow up with the patient every 3 days for 2 weeks.",
-  "patientId" : "f298c252-3b5c-4c03-8f31-278d19e0ff6c"
+  "content": "Patient reports dizziness and shortness of breath. Ordered CBC immediately. Schedule cardiology consultation within 48 hours. Advise low-sodium diet. Monitor BP daily for 7 days. Follow up every 3 days for 2 weeks.",
+  "patientId": "f298c252-3b5c-4c03-8f31-278d19e0ff6c"
 }
 
-### Get all doctors (no auth required)
-GET {{baseUrl}}/doctors
+### 8️⃣ Patient Selects Doctor  
+POST {{baseUrl}}/patient/assign-doctor
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
-
-### Create doctor profile (requires auth)
-POST {{baseUrl}}/doctors/profile
-Content-Type: application/json
-Authorization: Bearer {{authToken}}
-
-### Get doctor's patients (requires auth)
-GET {{baseUrl}}/doctors/patients
-Content-Type: application/json
-Authorization: Bearer {{authToken}}
-
-### Get all patients (requires auth)
-GET {{baseUrl}}/patients/id
-Content-Type: application/json
-Authorization: Bearer {{authToken}}
-
-### Get patients profile
-POST {{baseUrl}}/patients/profile
-Content-Type: application/json
-Authorization: Bearer {{authToken}}
-
-### Get patients doctors (requires auth)
-GET {{baseUrl}}/patients/doctor
-Content-Type: application/json
-Authorization: Bearer {{authToken}}
-
-
+{
+  "doctorId": "f298c252-3b5c-4c03-8f31-278d19e0ff6c"
+}
