@@ -4,6 +4,8 @@ import ApiResponse, { NotFoundResponse } from "../services/errorResponse";
 import { SuccessResponse, BadRequestResponse } from "../services/errorResponse";
 import { Role } from "@prisma/client";
 import { NoteData } from "../interface/userInterface";
+import actionableStepService from "../services/actionableStepService";  
+
 
 class NoteController {
 
@@ -71,7 +73,55 @@ class NoteController {
                 : new BadRequestResponse("Error updating note").send(res);
         }
     }
-      
+    public async createActionableStep(req: Request, res: Response) {
+      try {
+          const { description, noteId, scheduledAt } = req.body;
+
+          if (!description || !noteId || !scheduledAt) {
+              return new BadRequestResponse("Description, noteId, and scheduledAt are required").send(res);
+          }
+
+          const newStep = await actionableStepService.createStep({
+              description,
+              noteId,
+              scheduledAt: new Date(scheduledAt),
+          });
+
+          return new SuccessResponse("Actionable step created successfully", newStep).send(res);
+      } catch (error) {
+            return error instanceof ApiResponse
+                ? error.send(res)
+                : new BadRequestResponse("Error creating actionable step").send(res);
+        }
+    }
+
+      public async completeActionableStep(req: Request, res: Response) {
+          try {
+              const { stepId } = req.params;
+
+              const completedStep = await actionableStepService.completeStep(stepId);
+
+              return new SuccessResponse("Actionable step completed successfully", completedStep).send(res);
+          } catch (error) {
+              return error instanceof ApiResponse
+                  ? error.send(res)
+                  : new BadRequestResponse("Error completing actionable step").send(res);
+          }
+      }
+
+      public async getPendingSteps(req: Request, res: Response) {
+          try {
+              const { noteId } = req.params;
+
+              const steps = await actionableStepService.getPendingSteps(noteId);
+
+              return new SuccessResponse("Pending actionable steps retrieved successfully", steps).send(res);
+          } catch (error) {
+              return error instanceof ApiResponse
+                  ? error.send(res)
+                  : new BadRequestResponse("Error retrieving actionable steps").send(res);
+          }
+      }
 }
 
 export default new NoteController();

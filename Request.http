@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3000 
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI4NjY3ODJmLTkwMDAtNDk0NC04OGFhLWFiNzhlYmI5ZTZkYiIsImlhdCI6MTczOTU1ODI3NCwiZXhwIjoxNzM5NjAxNDc0fQ.Mu_WixO2hOcjLFKeZRj43ZAXv1gUfU92X34m6mY--dE
+@authToken = token
 ### 1️⃣ User Login
 POST {{baseUrl}}/login
 Content-Type: application/json
@@ -54,8 +54,40 @@ Authorization: Bearer {{authToken}}
 POST {{baseUrl}}/note
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
-
 {
   "content": "Patient reports dizziness and shortness of breath. Ordered complete blood count (CBC) immediately. Schedule a cardiology consultation within 48 hours. Advise the patient to avoid strenuous activity and maintain a low-sodium diet. Monitor blood pressure daily for 7 days. Follow up with the patient every 3 days for 2 weeks.",
-  "patientId" : "7be9e1e7-5ee3-4645-aac9-8172ca163475"
+  "patientId" : "f298c252-3b5c-4c03-8f31-278d19e0ff6c"
 }
+
+### Get all doctors (no auth required)
+GET {{baseUrl}}/doctors
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+
+### Create doctor profile (requires auth)
+POST {{baseUrl}}/doctors/profile
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+### Get doctor's patients (requires auth)
+GET {{baseUrl}}/doctors/patients
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+### Get all patients (requires auth)
+GET {{baseUrl}}/patients/id
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+### Get patients profile
+POST {{baseUrl}}/patients/profile
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+### Get patients doctors (requires auth)
+GET {{baseUrl}}/patients/doctor
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+
