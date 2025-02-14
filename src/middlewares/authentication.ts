@@ -16,7 +16,6 @@ export function authMiddleware(options: AuthMiddlewareOptions) {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const authHeader = req.headers["authorization"];
-
       if (!authHeader || !authHeader.startsWith("Bearer")) {
         throw new NotAuthorizedResponse("Unauthorized");
       }

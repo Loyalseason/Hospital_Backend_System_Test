@@ -18,6 +18,7 @@ noteRouter.put("/actionable-steps/:stepId/complete", noteController.completeActi
 
 noteRouter.get("/actionable-steps/:noteId/pending", noteController.getPendingSteps);
 
+noteRouter.get("/actionable-steps/reminders", noteController.getActionableStepsWithReminders);
 
 
 

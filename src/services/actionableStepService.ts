@@ -46,7 +46,34 @@ export class ActionableStepService {
         });
     }
 
-
+    async getActionableStepsWithReminders(noteId?: string) {    
+        try {
+            let noteInfo = null;
+            if (noteId) {
+                noteInfo = await prisma.note.findUnique({ where: { id: noteId } });
+                if (!noteInfo) {
+                    throw new Error(`Note with ID ${noteId} not found`);
+                }
+            }
+        
+            // Retrieve pending actionable steps
+            const steps = await this.getPendingSteps(noteId);
+        
+            // Format results
+            return {
+                note: noteInfo,
+                actionableSteps: steps.map(step => ({
+                    id: step.id,
+                    description: step.description,
+                    scheduledAt: step.scheduledAt,
+                    completed: step.completed,
+                })),
+            };
+        } catch (error) {
+            console.error('Error retrieving actionable steps:', error);
+            throw error;
+        }
+    }
     
     
 }

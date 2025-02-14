@@ -122,6 +122,20 @@ class NoteController {
                   : new BadRequestResponse("Error retrieving actionable steps").send(res);
           }
       }
+
+      public async getActionableStepsWithReminders(req: Request, res: Response) {
+          try {
+              const { noteId } = req.params;
+              
+              const steps = await actionableStepService.getActionableStepsWithReminders(noteId);
+
+              return new SuccessResponse("Actionable steps with reminders retrieved successfully", steps).send(res);
+          } catch (error) {
+              return error instanceof ApiResponse
+                  ? error.send(res)
+                  : new BadRequestResponse("Error retrieving actionable steps with reminders").send(res);
+          }
+      }
 }
 
 export default new NoteController();
