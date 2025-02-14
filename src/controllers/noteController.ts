@@ -26,22 +26,21 @@ class NoteController {
 
       public async createNote(req: Request, res: Response) {
         try {
-          const { content } = req.body;
+          const { patientId, content } = req.body;
             const { id: userId, role } = req.user;
-    
-          if (!content) {
+
+            if (!content) {
             return new BadRequestResponse("Note content is required").send(res);
         }
         const noteData: Partial<NoteData> = {
             content,
             doctorId: role === Role.DOCTOR ? userId : undefined,
-            patientId: role === Role.PATIENT ? userId : undefined,
+            patientId,
             createdAt: new Date(),
             updatedAt: new Date(),
         };
 
-    
-          const newNote = await noteService.create(noteData);
+          const newNote = await noteService.create(noteData, role);
     
           return new SuccessResponse("Note created successfully", newNote).send(res);
         } catch (error) {

@@ -91,7 +91,7 @@ class AuthService implements authInterface  {
     }
     const encryptedPassword = await bcrypt.hash(password, 10);
     password = encryptedPassword
-    const user = await userServices.create({name, email, password, role})
+    const user = await userServices.create({name, email, password, role} as UserInterface)
     if(!user){
       throw new BadRequestResponse("Couldn't Create")
      }

@@ -10,6 +10,20 @@ export interface UserInterface {
   updatedAt?: Date;
 }
 
+export interface UserDTO {
+  id?: string ;
+  name?: string;
+  email?: string;
+  role?: Role
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface ActionableStepData {
+  description: string;
+  scheduledAt?: Date;
+}
+
 export interface AuthMiddlewareOptions {
   tokenType: "access" | "refresh" | "passwordReset";
 }
@@ -43,8 +57,8 @@ export interface UserServicesInterface {
 export interface NoteData {
   id? : string;
   content: string;
-  patientId?: string | null;
-  doctorId?: string | null;
+  patientId?: string ;
+  doctorId?: string ;
   createdAt?: Date;
   updatedAt? : Date
 }

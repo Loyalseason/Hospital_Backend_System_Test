@@ -40,6 +40,40 @@ class UserService extends BaseService<UserInterface> {
     return true
   }
 
+  async create(data: Partial<UserInterface>): Promise<UserInterface> {
+    if (!data.email || !data.password || !data.name) {
+      throw new Error('Missing required fields: name, email, or password');
+    }
+  
+    // Create user with proper type
+    const user = await this.prisma.user.create({
+      data: {
+        email: data.email,
+        password: data.password,
+        name: data.name,
+        role: data.role ?? 'PATIENT',
+      },
+      include : {
+        doctor : true,
+        patient : true
+      }
+    });
+  
+    if (user.role === 'PATIENT') {
+      await this.prisma.patient.create({
+        data: { userId: user.id },
+      });
+    } else if (user.role === 'DOCTOR') {
+      await this.prisma.doctor.create({
+        data: { userId: user.id },
+      });
+    }
+    return user;
+  }
+  
+  
+
+
   // private formatUserPayload(user: User): UserInterface {
   //   return {
   //     id: user.id,

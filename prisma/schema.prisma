@@ -53,16 +53,15 @@ enum Role {
 }
 
 model User {
-  id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name     String
-  email    String   @unique @map(name: "LOWER(email)")
-  password String   // Hashed with bcrypt
-  role     Role
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String
+  email     String   @unique @map(name: "LOWER(email)")
+  password  String   // Hashed with bcrypt
+  role      Role
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  patient  Patient?
-  doctor   Doctor?
+  patient   Patient?
+  doctor    Doctor?
 }
 
 model Patient {
@@ -70,8 +69,8 @@ model Patient {
   userId    String   @unique @db.Uuid
   user      User     @relation(fields: [userId], references: [id])
   doctorId  String?  @db.Uuid 
-  notes     Note[]   
   Doctor    Doctor[]
+  Note      Note[]
 }
 
 model Doctor {
@@ -87,19 +86,40 @@ model Note {
   content      String  
   patientId    String   @db.Uuid
   doctorId     String   @db.Uuid
+  doctor       Doctor   @relation(fields: [doctorId], references: [id])
+  patient      Patient  @relation(fields: [patientId], references: [id])
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-
-  patient      Patient  @relation(fields: [patientId], references: [id])
-  doctor       Doctor   @relation(fields: [doctorId], references: [id])
   actionableSteps ActionableStep[]
 }
 
+// model ActionableStep {
+//   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+//   description String
+//   scheduledAt DateTime?
+//   createdAt   DateTime @default(now())
+//   note        Note     @relation(fields: [noteId], references: [id])
+//   noteId      String   @db.Uuid
+// }
+
 model ActionableStep {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  noteId      String   @db.Uuid
-  description String
-  scheduledAt DateTime?
-  createdAt   DateTime @default(now())
-  note        Note     @relation(fields: [noteId], references: [id])
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  description   String
+  noteId        String   @db.Uuid
+  scheduledAt   DateTime
+  recurrenceId  String?  @db.Uuid   // Match UUID type
+  completed     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  recurrence    Recurrence? @relation(fields: [recurrenceId], references: [id])
+  note          Note       @relation(fields: [noteId], references: [id])
+}
+
+model Recurrence {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  startDate      DateTime
+  repeatDays     Int
+  occurrences    Int
+  actionableSteps ActionableStep[]
 }

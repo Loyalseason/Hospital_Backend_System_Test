@@ -5,7 +5,11 @@ import userController from "../controllers/userController";
 const userRouter = express.Router();
 
 userRouter.use(authMiddleware({ tokenType: "access" }));
-userRouter.get("/user", userController.getUserById);
+
+userRouter.get("/profile", userController.getUserById);
+
+userRouter.get("/users", userController.getAllUsers);
+
 
 export default userRouter;
 

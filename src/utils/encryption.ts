@@ -1,21 +1,26 @@
-import crypto from 'crypto';
+// src/utils/cryptoUtils.ts
+import CryptoJS from 'crypto-js';
 
-const ENCRYPTION_KEY = Buffer.from(process.env.ENCRYPTION_KEY as string, 'base64');
-const IV_LENGTH = 16; 
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
+if (!ENCRYPTION_KEY) throw new Error("ENCRYPTION_KEY is not set");
 
+const key = CryptoJS.enc.Hex.parse(ENCRYPTION_KEY);
+const iv = CryptoJS.enc.Hex.parse('00000000000000000000000000000000'); 
 
 export function encrypt(text: string): string {
-  const iv = crypto.randomBytes(IV_LENGTH);
-  const cipher = crypto.createCipheriv('aes-256-cbc', ENCRYPTION_KEY, iv);
-  let encrypted = cipher.update(text, 'utf8', 'hex');
-  encrypted += cipher.final('hex');
-  return `${iv.toString('hex')}:${encrypted}`;
+  const encrypted = CryptoJS.AES.encrypt(text, key, {
+    iv,
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7,
+  });
+  return encrypted.toString();
 }
 
 export function decrypt(encryptedText: string): string {
-  const [iv, encrypted] = encryptedText.split(':');
-  const decipher = crypto.createDecipheriv('aes-256-cbc', ENCRYPTION_KEY, Buffer.from(iv, 'hex'));
-  let decrypted = decipher.update(encrypted, 'hex', 'utf8');
-  decrypted += decipher.final('utf8');
-  return decrypted;
+  const decrypted = CryptoJS.AES.decrypt(encryptedText, key, {
+    iv,
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7,
+  });
+  return decrypted.toString(CryptoJS.enc.Utf8);
 }

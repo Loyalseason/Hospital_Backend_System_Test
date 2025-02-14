@@ -1,8 +1,5 @@
 @baseUrl = http://localhost:3000 
-# @authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNlMWRiMzg5LTY4MmYtNDY2Ni05ODAzLWE1YWUyMmI1MDhiNCIsImlhdCI6MTczOTQ1ODE3NCwiZXhwIjoxNzM5NTAxMzc0fQ.-nr2VyPoODY2NEsrIvx_EKBxdeOHElIrE5rkgeqy0w0
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZkYTY4ZGMzLWFhZjgtNDFmMy05ZDJlLWYyMzBiZDUxOGIxNyIsImlhdCI6MTczOTQ1ODI4OSwiZXhwIjoxNzM5NTAxNDg5fQ.mA8DN9BtzNLP_ASkBN8vct3i5BZmXn0vHGDOYRbCu1c
-
-
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjYTIwZmJmLTcwYmUtNDE2Ni1iZTMwLWZmY2NhOWFiYjYxOSIsImlhdCI6MTczOTQ4OTk3OCwiZXhwIjoxNzM5NTMzMTc4fQ.FsJnq9VcqkpSb6rIYA9ODc17MeHQtbGIF0Gv1Bov8sM
 ### 1️⃣ User Login
 POST {{baseUrl}}/login
 Content-Type: application/json
@@ -43,11 +40,22 @@ Content-Type: application/json
   "role": "PATIENT"
 }
 
-### Create Note
+### 5️⃣ Get Profile
+GET {{baseUrl}}/profile
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+### 5️⃣ Get All Users
+GET {{baseUrl}}/users
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+### 6️⃣ Create Note
 POST {{baseUrl}}/note
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "content": "This is a sample doctors note."
+  "content": "Patient reports dizziness and shortness of breath. Ordered complete blood count (CBC) immediately. Schedule a cardiology consultation within 48 hours. Advise the patient to avoid strenuous activity and maintain a low-sodium diet. Monitor blood pressure daily for 7 days. Follow up with the patient every 3 days for 2 weeks.",
+  "patientId" : "7be9e1e7-5ee3-4645-aac9-8172ca163475"
 }
