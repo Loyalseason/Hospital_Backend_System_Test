@@ -12,6 +12,12 @@ noteRouter.post("/note", noteController.createNote);
 
 noteRouter.put("/note", noteController.updateNote);
 
+noteRouter.post("/actionable-steps", noteController.createActionableStep);
+
+noteRouter.put("/actionable-steps/:stepId/complete", noteController.completeActionableStep);
+
+noteRouter.get("/actionable-steps/:noteId/pending", noteController.getPendingSteps);
+
 
 
 
