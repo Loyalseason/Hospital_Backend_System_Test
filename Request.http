@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3000 
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjYTIwZmJmLTcwYmUtNDE2Ni1iZTMwLWZmY2NhOWFiYjYxOSIsImlhdCI6MTczOTQ4OTk3OCwiZXhwIjoxNzM5NTMzMTc4fQ.FsJnq9VcqkpSb6rIYA9ODc17MeHQtbGIF0Gv1Bov8sM
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI4NjY3ODJmLTkwMDAtNDk0NC04OGFhLWFiNzhlYmI5ZTZkYiIsImlhdCI6MTczOTU1ODI3NCwiZXhwIjoxNzM5NjAxNDc0fQ.Mu_WixO2hOcjLFKeZRj43ZAXv1gUfU92X34m6mY--dE
 ### 1️⃣ User Login
 POST {{baseUrl}}/login
 Content-Type: application/json

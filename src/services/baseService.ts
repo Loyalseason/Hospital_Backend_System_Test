@@ -47,7 +47,6 @@ export abstract class AuthorizedBaseService<T> extends BaseService<T> {
       return super.update(id, data);
   }
 
-  // Override the base update method to throw an error
   async update(id: string, data: Partial<T>): Promise<T | null> {
       throw new Error("Use authorizedUpdate instead of update for this service");
   }
